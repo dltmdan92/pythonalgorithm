@@ -1,3 +1,7 @@
+"""
+건물 사이사이 물 채우기
+"""
+
 def trapping_rain(buildings):
     # 코드를 작성하세요
     sum_val = 0

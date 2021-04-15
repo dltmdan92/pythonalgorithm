@@ -2,8 +2,7 @@ def consecutive_sum(start, end):
     # 코드를 작성하세요
     if start == end:
         return start
-    else:
-        return consecutive_sum(start, (start + end) // 2) + consecutive_sum((start + end) // 2 + 1, end)
+    return consecutive_sum(start, (start + end) // 2) + consecutive_sum((start + end) // 2 + 1, end)
 
 # 테스트
 print(consecutive_sum(1, 10))
