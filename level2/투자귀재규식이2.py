@@ -14,31 +14,25 @@ sublist_max는 profits의 start부터 end까지 구간에서 가능한 가장 �
 합병 정렬을 구현할 때 merge_sort 함수를 깔끔하게 작성하기 위해 추가로 merge 함수를 작성했던 것 기억 나시나요?
 마찬가지로 퀵 정렬을 구현할 때 quicksort 함수에 추가로 partition 함수를 작성했습니다.
 이번에도 sublist_max 함수에 추가로 새로운 함수를 작성하면 도움이 되실 겁니다.
+
+정답은 SublistMax2.py를 참고!!
 """
 
-# Divide and Conquer O(n * logn)
-def max_crossing_sum(profits, start, end):
-    mid = (start + end) // 2      # 중간 인덱스
 
-    '''
-    왼쪽에서의 가장 큰 수익 계산
-    인덱스 mid부터 인덱스 0까지 범위를 넓혀가며 최대 수익을 찾는다
-    '''
-    left_sum = 0                  # 왼쪽 누적 수익
-    left_max = profits[mid]       # 왼쪽 최고 수익; 왼쪽 반 중 가장 오른쪽 값으로 초기화
+def max_crossing_sum(profits, start, end):
+    mid = (start + end) // 2
+
+    left_sum = 0
+    left_max = profits[mid]
 
     for i in range(mid, start - 1, -1):
         left_sum += profits[i]
         left_max = max(left_max, left_sum)
 
-    '''
-    오른쪽에서의 가장 큰 수익 계산
-    인덱스 mid+1부터 인덱스 end까지 범위를 넓혀가며 최대 수익을 찾는다
-    '''
-    right_sum = 0                 # 오른쪽 누적 수익
-    right_max = profits[mid + 1]  # 오른쪽 최고 수익; 오른쪽 반 중 가장 왼쪽 값으로 초기화
+    right_sum = 0
+    right_max = profits[mid+1]
 
-    for i in range(mid + 1, end + 1):
+    for i in range(mid+1, end + 1):
         right_sum += profits[i]
         right_max = max(right_max, right_sum)
 
@@ -46,22 +40,17 @@ def max_crossing_sum(profits, start, end):
 
 
 def sublist_max(profits, start, end):
-    # 범위에 하나의 항목밖에 없으면, 그 항목을 리턴한다
+    # 코드를 작성하세요.
+    mid = (start + end) // 2
+
     if start == end:
         return profits[start]
 
-    # 중간 인덱스
-    mid = (start + end) // 2
+    left_sum = sublist_max(profits, start, mid)
+    right_sum = sublist_max(profits, mid+1, end)
+    crossing_sum = max_crossing_sum(profits, start, end)
 
-    # 상황별로 최대 수익을 구한다
-    max_left = sublist_max(profits, start, mid)
-    max_right = sublist_max(profits, mid + 1, end)
-    max_cross = max_crossing_sum(profits, start, end)
-
-    # 위 세 경우 중 가장 큰 결괏값을 리턴한다
-    return max(max_left, max_right, max_cross)
-
-
+    return max(left_sum, right_sum, crossing_sum)
 
 # 테스트
 list1 = [-2, -3, 4, -1, -2, 1, 5, -3]
